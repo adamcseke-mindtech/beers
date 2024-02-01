@@ -15,12 +15,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import mindtech.adam.beers.Modules.MainViewModel
-import mindtech.adam.beers.Modules.Pager.PagerView
+import mindtech.adam.beers.Modules.Pager.PagerScreen
 import mindtech.adam.beers.ui.theme.BeersTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             BeersTheme {
                 // A surface container using the 'background' color from the theme
@@ -34,20 +38,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    val viewModel: MainViewModel = viewModel()
-    val context = LocalContext.current
 
-    NavHost(navController, startDestination = "shoppinglistscreen"){
+    NavHost(navController, startDestination = "shoppinglistscreen") {
         composable("shoppinglistscreen") {
-            PagerView(
-                viewModel = viewModel,
-                navController = navController,
-                context = context
-            )
+            PagerScreen()
         }
     }
 }
