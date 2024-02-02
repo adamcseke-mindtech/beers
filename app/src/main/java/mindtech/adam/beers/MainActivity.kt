@@ -38,16 +38,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-@Composable
-fun Navigation() {
-    val navController = rememberNavController()
-
-    NavHost(navController, startDestination = "shoppinglistscreen") {
-        composable("shoppinglistscreen") {
-            PagerScreen()
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
