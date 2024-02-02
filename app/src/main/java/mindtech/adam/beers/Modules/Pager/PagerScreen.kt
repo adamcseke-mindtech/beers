@@ -15,7 +15,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,14 +54,15 @@ fun PagerScreen(viewModel: MainViewModel = hiltViewModel()) {
 
             if (page < viewState.list.size - 1) {
                 val beer = viewState.list[page]
-                BeerItem(beer = beer,
-                    viewModel = viewModel,
-                    onPageChange = {
-                        scope.launch {
-                            val nextPage = (pagerState.currentPage + 1) % viewState.list.size
-                            pagerState.animateScrollToPage(nextPage)
+                    BeerItem(beer = beer,
+                        viewModel = viewModel,
+                        onPageChange = {
+                            scope.launch {
+                                val nextPage = (pagerState.currentPage + 1) % viewState.list.size
+                                pagerState.animateScrollToPage(nextPage)
+                            }
                         }
-                    })
+                    )
             } else {
                 FavoriteBeersList(favoriteBeers = viewModel.currentFavorites)
             }
