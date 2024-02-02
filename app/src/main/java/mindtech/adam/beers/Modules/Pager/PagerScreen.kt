@@ -2,6 +2,7 @@ package mindtech.adam.beers.Modules.Pager
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Scaffold
@@ -23,17 +24,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import mindtech.adam.beers.Modules.MainViewModel
 import mindtech.adam.beers.Data.Models.Beer
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 import mindtech.adam.beers.Modules.Pager.Views.BeerItem
 import mindtech.adam.beers.Modules.Views.AppBarView
+import mindtech.adam.beers.Navigation.Screen
 import mindtech.adam.beers.ui.theme.BeersTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PagerScreen(viewModel: MainViewModel = hiltViewModel()) {
+fun PagerScreen(viewModel: MainViewModel,
+                navController: NavController
+) {
 
     val viewState by viewModel.beersState
     val pagerState = rememberPagerState(pageCount = { viewState.list.count() })
@@ -61,20 +66,30 @@ fun PagerScreen(viewModel: MainViewModel = hiltViewModel()) {
                                 val nextPage = (pagerState.currentPage + 1) % viewState.list.size
                                 pagerState.animateScrollToPage(nextPage)
                             }
+                        }, onClick = {
+                            viewModel.selectBeer(beer)
+                            navController.navigate(Screen.DetailsScreen.route)
                         }
                     )
             } else {
-                FavoriteBeersList(favoriteBeers = viewModel.currentFavorites)
+                FavoriteBeersList(favoriteBeers = viewModel.currentFavorites,
+                    onBeerClick = { beer ->
+                        viewModel.selectBeer(beer)
+                        navController.navigate(Screen.DetailsScreen.route)
+                    }
+                )
             }
         }
     }
 }
 
 @Composable
-fun FavoriteBeersList(favoriteBeers: List<Beer>) {
+fun FavoriteBeersList(favoriteBeers: List<Beer>, onBeerClick: (Beer) -> Unit) {
         LazyColumn {
             items(favoriteBeers) {beer ->
-                Row {
+                Row(modifier = Modifier
+                    .clickable { onBeerClick(beer) }
+                ) {
                     Image(
                         painter = rememberAsyncImagePainter(beer.imageURL),
                         contentDescription = null,
@@ -107,17 +122,17 @@ fun FavoriteBeersList(favoriteBeers: List<Beer>) {
     }
 }
 
-fun getDummyBeers(): List<Beer> {
-    return listOf(
-        Beer(id = 1, name = "Beer 1", tagline = "Tagline 1", imageURL = "https://images.punkapi.com/v2/7.png"),
-        Beer(id = 2, name = "Beer 2", tagline = "Tagline 2", imageURL = "https://images.punkapi.com/v2/2.png"),
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BeerListPreview() {
-    BeersTheme {
-        FavoriteBeersList(favoriteBeers = getDummyBeers())
-    }
-}
+//fun getDummyBeers(): List<Beer> {
+//    return listOf(
+//        Beer(id = 1, name = "Beer 1", tagline = "Tagline 1", imageURL = "https://images.punkapi.com/v2/7.png", description = "desc"),
+//        Beer(id = 2, name = "Beer 2", tagline = "Tagline 2", imageURL = "https://images.punkapi.com/v2/2.png", description = ""),
+//    )
+//}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun BeerListPreview() {
+//    BeersTheme {
+//        FavoriteBeersList(favoriteBeers = getDummyBeers(), onBeerClick = {})
+//    }
+//}

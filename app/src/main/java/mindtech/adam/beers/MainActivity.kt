@@ -8,16 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import mindtech.adam.beers.Modules.MainViewModel
-import mindtech.adam.beers.Modules.Pager.PagerScreen
 import mindtech.adam.beers.ui.theme.BeersTheme
 import dagger.hilt.android.AndroidEntryPoint
+import mindtech.adam.beers.Navigation.Navigation
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

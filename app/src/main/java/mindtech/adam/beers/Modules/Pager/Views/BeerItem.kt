@@ -3,6 +3,7 @@ package mindtech.adam.beers.Modules.Pager.Views
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,10 +31,14 @@ import mindtech.adam.beers.ui.theme.DislikeRed
 import mindtech.adam.beers.ui.theme.LikeGreen
 
 @Composable
-fun BeerItem(beer: Beer, viewModel: MainViewModel, onPageChange: () -> Unit) {
+fun BeerItem(beer: Beer,
+             viewModel: MainViewModel,
+             onPageChange: () -> Unit,
+             onClick: () -> Unit) {
     Card(
         modifier = Modifier
-            .padding(top = 38.dp, bottom = 4.dp, start = 16.dp, end = 16.dp),
+            .padding(top = 38.dp, bottom = 4.dp, start = 16.dp, end = 16.dp)
+            .clickable { onClick() },
         elevation = 8.dp,
         backgroundColor = Color.White
     ) {

@@ -6,6 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,8 +27,15 @@ class MainViewModel @Inject constructor(
     private val _favoriteBeers = mutableStateOf<List<Beer>>(listOf())
     val currentFavorites = _favoriteBeers.value.toMutableList()
 
+    var selectedBeer by mutableStateOf(Beer.empty)
+
     init {
         fetchBeers()
+    }
+
+    fun selectBeer(beer: Beer) {
+        Log.d("ViewModel", "Selecting beer: ${beer}")
+        selectedBeer = beer
     }
 
     fun deleteBeer(beer: Beer) {
