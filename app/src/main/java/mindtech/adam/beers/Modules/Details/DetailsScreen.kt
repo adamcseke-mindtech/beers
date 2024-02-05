@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import mindtech.adam.beers.Modules.Details.Views.DetailInfoView
 import mindtech.adam.beers.Modules.MainViewModel
 
 @Composable
@@ -66,32 +67,9 @@ fun DetailsScreen(viewModel: MainViewModel) {
                         )
                     }
 
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 24.dp, bottom = 12.dp),
-                        text = beer.description
-                    )
-
-                    Divider(modifier = Modifier
-                        .padding(end = 12.dp))
-
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 24.dp, bottom = 12.dp),
-                        text = "Tips for brewing: " + beer.brewersTips
-                    )
-
-                    Divider(modifier = Modifier
-                        .padding(end = 12.dp))
-
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 24.dp, bottom = 12.dp),
-                        text = "First brewed: " + beer.firstBrewed
-                    )
-
-                    Divider(modifier = Modifier
-                        .padding(end = 12.dp))
+                    DetailInfoView(beer.description)
+                    DetailInfoView("Tips for brewing: " + beer.brewersTips)
+                    DetailInfoView("First brewed: " + beer.firstBrewed)
 
                     Text(
                         modifier = Modifier
@@ -102,18 +80,11 @@ fun DetailsScreen(viewModel: MainViewModel) {
                         Text(
                             modifier = Modifier
                                 .padding(bottom = 12.dp),
-                            text = food
+                            text = "- $food"
                         )
                     }
 
-                    Divider(modifier = Modifier
-                        .padding(end = 12.dp))
-
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 24.dp, bottom = 12.dp),
-                        text = "Contributed by: " + beer.contributedBy
-                    )
+                    DetailInfoView("Contributed by: " + beer.contributedBy, divider = false)
                 }
             }
         }
